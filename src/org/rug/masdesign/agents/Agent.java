@@ -10,6 +10,7 @@ import java.util.List;
 public class Agent {
     private double gossipProbability;
     private List<Event> memories;
+    private double mutationChance;
 
     public void addMemory(Event e) {
         memories.add(e);
@@ -25,5 +26,9 @@ public class Agent {
 
     public double fitness(){
         return 0.0;
+    }
+
+    public Agent produceChild() {
+        return new Agent();
     }
 }
