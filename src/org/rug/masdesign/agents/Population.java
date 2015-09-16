@@ -8,7 +8,7 @@ public class Population {
     private double startingGossipProbability;
 
     public void nextRound(){
-
+        // Do some stuff inside here
     }
 
     public void nextGeneration() {
