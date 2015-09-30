@@ -1,6 +1,8 @@
 package org.rug.masdesign.agents;
 
 import org.rug.masdesign.events.Event;
+import org.rug.masdesign.events.GossipEvent;
+import org.rug.masdesign.events.GroomingEvent;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -8,13 +10,19 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by wizzardich on 9/15/15.
+ * Basic unit of simulation
  */
 public class Agent {
     private double gossipProbability;
     private List<Event> memories;
     private double mutationChance;
     private static Random rand = new Random();
+
+    // These can be implemented dynamically only whe we need a fitness value.
+    // Is that really optimal?
+
+    private double groomingEvents = 0.0;
+    private double gossipEvents = 0.0;
 
     public Agent(double mutation, double gossip) {
         mutationChance = mutation;
@@ -59,5 +67,18 @@ public class Agent {
 
     public Agent produceChild() {
         return new Agent(mutationChance, gossipProbability);
+    }
+
+    public Event whatToDo() {
+        if (rand.nextDouble() > gossipProbability) return new GossipEvent();
+        else return new GroomingEvent();
+    }
+
+    public void increaseGroomingFitness() {
+        groomingEvents += 1;
+    }
+
+    public void increaseGossipFitness(int size) {
+        gossipEvents += 1.0 / (size - 1);
     }
 }

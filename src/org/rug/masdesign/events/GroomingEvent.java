@@ -5,26 +5,9 @@ import org.rug.masdesign.agents.Agent;
 import java.util.List;
 
 /**
- * Created by wizzardich on 9/15/15.
+ * Grooming event representation
  */
 public class GroomingEvent extends Event {
-    public GroomingEvent(){
-
-    }
-    //roundParticipants: all participats of the round
-    public GroomingEvent(Agent initiator, List<Agent> roundParticipants){
-        super();
-        //TODO: randomly select 1 participants that have not participated
-        //in an event this round
-
-        //TODO:add initiator and selected participant to the participants of the
-        //event
-
-        //TODO:add this event to the memory of both parcipants
-
-        //TODO: randomly select 4 participants from roundParticipants and add this
-        //event to their memories
-    }
 
     @Override
     public EventType getEventType() {
@@ -33,6 +16,18 @@ public class GroomingEvent extends Event {
 
     @Override
     public void apply(List<Agent> participants, List<Agent> observers) {
+        // Increase Grooming Fitness
+        for (Agent participant: participants) {
+            participant.increaseGroomingFitness();
+        }
+        // Remember this event
 
+        for (Agent participant: participants) {
+            participant.addMemory(this);
+        }
+
+        for (Agent observer: observers) {
+            observer.addMemory(this);
+        }
     }
 }

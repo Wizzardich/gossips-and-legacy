@@ -5,7 +5,7 @@ import org.rug.masdesign.agents.Agent;
 import java.util.List;
 
 /**
- * Created by wizzardich on 9/15/15.
+ * Gossip event representation
  */
 public class GossipEvent extends Event {
     
@@ -16,6 +16,12 @@ public class GossipEvent extends Event {
 
     @Override
     public void apply(List<Agent> participants, List<Agent> observers) {
+
+        // Increase Gossip Fitness
+        for (Agent participant: participants) {
+            participant.increaseGossipFitness(participants.size());
+        }
+
         // Get event initiator
 
         int initiatorIndex = rand.nextInt(participants.size());
