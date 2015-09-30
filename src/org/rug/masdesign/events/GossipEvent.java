@@ -9,11 +9,15 @@ import java.util.List;
  */
 public class GossipEvent extends Event {
 	
-	//constructor of the method
+	/**
+	 *  constructor of the method
+     */
 	public GossipEvent (){
 	}
-	
-	//roundParticipants: all participats of the round
+
+    /**
+     *  roundParticipants: all participats of the round
+     */
 	public GossipEvent(Agent initiator, List<Agent> roundParticipants){
 		super();
 		//TODO: randomly select 1-3 participants that have not participated

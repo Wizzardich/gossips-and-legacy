@@ -1,3 +1,4 @@
+package org.rug.masdesign.experiment;
 
 public class Group {
 	public int size;

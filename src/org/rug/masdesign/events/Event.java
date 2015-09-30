@@ -1,21 +1,20 @@
 package org.rug.masdesign.events;
 
 import org.rug.masdesign.agents.Agent;
+import org.rug.masdesign.experiment.*;
 
 import java.util.List;
+import java.util.UUID;
 
-/**
- * Created by wizzardich on 9/15/15.
- */
 public abstract class Event {
-	public int id;
+    protected UUID id;
     protected List<Agent> participants;
     protected List<Agent> observers;
     protected boolean legacy = false;
     protected Round round;
 
-    public Event(){
-    	//TODO: assign ID
+    public Event() {
+        id = UUID.randomUUID();
     }
     public List<Agent> getParticipants() {
         return participants;
@@ -41,4 +40,11 @@ public abstract class Event {
 
     public abstract EventType getEventType();
     public abstract void apply(List<Agent> participants, List<Agent> observers);
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof Event)) return false;
+        Event otherEvent = (Event) other;
+        return otherEvent.id.equals(this.id);
+    }
 }
