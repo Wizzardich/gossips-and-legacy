@@ -17,11 +17,12 @@ public class Main {
         Population.FAIL_MODIFIER = 0.05;
 
         Agent.MAX_DEVIATION = 0.05;
+        Agent.MUTATION_CHANCE = 0.01;
 
-        for (int pop = 10; pop < 250 ;pop +=40) {
+        for (int pop = 10; pop < 250; pop +=40) {
             double result = 0.0;
             for(int j = 0; j < 5; j++) {
-                Population population = new Population(pop, 0.1, 0.01, 60);
+                Population population = new Population(pop, 0.5, 60);
 
                 for (int i = 0; i < generations; i++) {
                     population.execGeneration();

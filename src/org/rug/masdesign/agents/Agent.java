@@ -12,21 +12,23 @@ import java.util.*;
 public class Agent implements Comparable<Agent>{
     private double gossipProbability;
     private List<Event> memories;
-    private double mutationChance;
     private static Random rand = new Random();
     public static double MAX_DEVIATION = 0.05;
+    public static double MUTATION_CHANCE = 0.01;
+    private double fit = 0.0;
 
     // These can be implemented dynamically only whe we need a fitness value.
     // Is that really optimal?
 
     private double groomingEvents;
     private double gossipEvents;
+    private int gossipEventsNum;
 
-    public Agent(double mutation, double gossip) {
-        mutationChance = mutation;
+    public Agent(double gossip) {
         gossipProbability = gossip;
         groomingEvents = 0.0;
         gossipEvents = 0.0;
+        gossipEventsNum = 0;
         memories = new ArrayList<>();
     }
 
@@ -70,13 +72,13 @@ public class Agent implements Comparable<Agent>{
     public Agent produceChild() {
         double mutation = MAX_DEVIATION * rand.nextDouble();
         mutation *= rand.nextDouble() > 0.5 ? -1 : 1;
-        double newProb = rand.nextDouble() < mutationChance
+        double newProb = rand.nextDouble() < MUTATION_CHANCE
                 ? gossipProbability + mutation
                 : gossipProbability;
 
         newProb = Math.max(0, Math.min(1, newProb));
 
-        return new Agent(mutationChance, newProb);
+        return new Agent(newProb);
     }
 
     public Event whatToDo() {
@@ -86,10 +88,13 @@ public class Agent implements Comparable<Agent>{
 
     public void increaseGroomingFitness() {
         groomingEvents += 1;
+        fit = fitness();
     }
 
     public void increaseGossipFitness(int size) {
         gossipEvents += 1.0 / (size - 1);
+        gossipEventsNum++;
+        fit = fitness();
     }
 
     public double getGossipProbability() {

@@ -53,7 +53,7 @@ public class GroomingEvent extends Event {
             while (!added) {
                 int index = rand.nextInt(allAgents.size());
                 Agent candidate = allAgents.get(index);
-                if (!participants.contains(candidate)) {
+                if (!participants.contains(candidate) && !observers.contains(candidate)) {
                     added = true;
                     observers.add(candidate);
                 }

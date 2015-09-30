@@ -1,6 +1,5 @@
 package org.rug.masdesign.agents;
 
-import org.rug.masdesign.events.Event;
 import org.rug.masdesign.experiment.Round;
 
 import java.util.ArrayList;
@@ -15,11 +14,11 @@ public class Population {
     public static double SUCCESS_MODIFIER = 0.05;
     public static double FAIL_MODIFIER = 0.05;
 
-    public Population(int size, double startingGossipProbability, double mutationProbability, int roundsPerGeneration) {
+    public Population(int size, double startingGossipProbability, int roundsPerGeneration) {
         this.roundsPerGeneration = roundsPerGeneration;
         this.population = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            population.add(new Agent(mutationProbability, startingGossipProbability));
+            population.add(new Agent(startingGossipProbability));
         }
     }
 
@@ -32,8 +31,9 @@ public class Population {
         population.sort(Agent.comparator);
         List<Agent> nextGen = new ArrayList<>();
         for (int i = 0; i < (int)Math.ceil(population.size() * SUCCESS_MODIFIER); i++) {
-            nextGen.add(population.get(i).produceChild());
-            nextGen.add(population.get(i).produceChild());
+            Agent a = population.get(i).produceChild();
+            nextGen.add(a);
+            nextGen.add(new Agent(a.getGossipProbability()));
         }
 
         for (int i = (int)Math.ceil(population.size() * SUCCESS_MODIFIER);

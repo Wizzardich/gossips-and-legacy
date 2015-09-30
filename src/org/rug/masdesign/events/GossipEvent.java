@@ -63,10 +63,6 @@ public class GossipEvent extends Event {
             socialPool.remove(index);
         }
 
-        if (participants.size() == 1) {
-            System.out.println("here");
-        }
-
         observers = new LinkedList<>();
         int numberOfObservers = NUM_OBSERVERS;//rand.nextInt(NUM_OBSERVERS) + 1;
 
@@ -75,7 +71,7 @@ public class GossipEvent extends Event {
             while (!added) {
                 int index = rand.nextInt(allAgents.size());
                 Agent candidate = allAgents.get(index);
-                if (!participants.contains(candidate)) {
+                if (!participants.contains(candidate) && !observers.contains(candidate)) {
                     added = true;
                     observers.add(candidate);
                 }
