@@ -8,11 +8,15 @@ import java.util.List;
  * Created by wizzardich on 9/15/15.
  */
 public abstract class Event {
+	public int id;
     protected List<Agent> participants;
     protected List<Agent> observers;
     protected boolean legacy = false;
     protected Round round;
 
+    public Event(){
+    	//TODO: assign ID
+    }
     public List<Agent> getParticipants() {
         return participants;
     }

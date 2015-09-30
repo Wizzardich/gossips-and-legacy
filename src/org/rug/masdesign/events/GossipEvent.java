@@ -15,6 +15,7 @@ public class GossipEvent extends Event {
 	
 	//roundParticipants: all participats of the round
 	public GossipEvent(Agent initiator, List<Agent> roundParticipants){
+		super();
 		//TODO: randomly select 1-3 participants that have not participated
 		//in an event this round
 		

@@ -13,6 +13,7 @@ public class GroomingEvent extends Event {
 	}
 	//roundParticipants: all participats of the round
 	public GroomingEvent(Agent initiator, List<Agent> roundParticipants){
+		super();
 		//TODO: randomly select 1 participants that have not participated
 		//in an event this round
 		
