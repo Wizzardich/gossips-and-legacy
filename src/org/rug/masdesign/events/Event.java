@@ -4,14 +4,17 @@ import org.rug.masdesign.agents.Agent;
 import org.rug.masdesign.experiment.*;
 
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 public abstract class Event {
+    public static int GOSSIP_INFORMATION_SHARING = 10;
     protected UUID id;
     protected List<Agent> participants;
     protected List<Agent> observers;
     protected boolean legacy = false;
     protected Round round;
+    protected static Random rand = new Random();
 
     public Event() {
         id = UUID.randomUUID();

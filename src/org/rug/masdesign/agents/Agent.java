@@ -14,13 +14,12 @@ public class Agent {
     private double gossipProbability;
     private List<Event> memories;
     private double mutationChance;
-    private Random rand;
+    private static Random rand = new Random();
 
     public Agent(double mutation, double gossip) {
         mutationChance = mutation;
         gossipProbability = gossip;
         memories = new ArrayList<>();
-        rand = new Random();
     }
 
     public void addMemory(Event e) {
