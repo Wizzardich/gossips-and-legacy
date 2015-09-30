@@ -4,15 +4,12 @@ import org.rug.masdesign.events.Event;
 import org.rug.masdesign.events.GossipEvent;
 import org.rug.masdesign.events.GroomingEvent;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Basic unit of simulation
  */
-public class Agent {
+public class Agent implements Comparable<Agent>{
     private double gossipProbability;
     private List<Event> memories;
     private double mutationChance;
@@ -68,7 +65,15 @@ public class Agent {
     }
 
     public Agent produceChild() {
-        return new Agent(mutationChance, gossipProbability);
+        double mutation = mutationChance * rand.nextDouble();
+        mutation *= rand.nextDouble() > 0.5 ? -1 : 1;
+        double newProb = rand.nextDouble() < mutationChance
+                ? gossipProbability + mutation
+                : gossipProbability;
+
+        newProb = Math.max(0, Math.min(1, newProb));
+
+        return new Agent(mutationChance, newProb);
     }
 
     public Event whatToDo() {
@@ -83,4 +88,23 @@ public class Agent {
     public void increaseGossipFitness(int size) {
         gossipEvents += 1.0 / (size - 1);
     }
+
+    public double getGossipProbability() {
+        return gossipProbability;
+    }
+
+
+    @Override
+    public int compareTo(Agent agent) {
+        return (int)(this.fitness() - agent.fitness() / Math.abs(this.fitness() - agent.fitness()));
+    }
+
+    private static class AgentComparator implements Comparator<Agent> {
+        @Override
+        public int compare(Agent agent, Agent t1) {
+            return agent.compareTo(t1);
+        }
+    }
+
+    public static final AgentComparator comparator = new AgentComparator();
 }
