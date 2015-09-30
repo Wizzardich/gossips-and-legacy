@@ -31,7 +31,9 @@ public class Agent {
     }
 
     public void addMemory(Event e) {
-        memories.add(e);
+        if (!memories.contains(e)) {
+            memories.add(e);
+        }
     }
 
     public void addMemories(Iterable<Event> e) {
@@ -44,7 +46,7 @@ public class Agent {
 
     public List<Event> getRandomMemories(int number) {
         // in case we have less then number of memories
-        if (this.memories.size() < number) return this.memories;
+        if (this.memories.size() <= number) return this.memories;
 
         // otherwise we iterate number of times and get a random memory each time
         List<Event> memories = new LinkedList<>();
@@ -52,7 +54,7 @@ public class Agent {
             Event newMem;
 
             do {
-                newMem = this.memories.get(rand.nextInt());
+                newMem = this.memories.get(rand.nextInt(this.memories.size()));
             } while (memories.contains(newMem));
 
             memories.add(newMem);
@@ -61,7 +63,7 @@ public class Agent {
         return memories;
     }
 
-    public double fitness(){
+    public double fitness() {
         return (5 * groomingEvents + 4 * gossipEvents) * Math.pow(memories.size(), 2);
     }
 
@@ -70,7 +72,7 @@ public class Agent {
     }
 
     public Event whatToDo() {
-        if (rand.nextDouble() > gossipProbability) return new GossipEvent();
+        if (rand.nextDouble() < gossipProbability) return new GossipEvent();
         else return new GroomingEvent();
     }
 

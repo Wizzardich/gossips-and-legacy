@@ -4,6 +4,7 @@ import org.rug.masdesign.agents.Agent;
 import org.rug.masdesign.events.Event;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -13,12 +14,14 @@ public class Round {
     private ArrayList<Agent> initiatorPool;
     private int agentNumber;
     private static Random rand = new Random();
+    private List<Event> events;
 
     public Round(List<Agent> people) {
         agents = people;
         initiatorPool = new ArrayList<>();
         initiatorPool.addAll(agents);
         agentNumber = agents.size();
+        events = new LinkedList<>();
     }
 
 	public void execute(){
@@ -27,7 +30,7 @@ public class Round {
 		//if v > agent's gossip probability = agent will groom, else gossip
 		//either a groom event or a gossip event is created
         while (initiatorPool.size() >= 2) {
-            Agent initiator = initiatorPool.get(rand.nextInt(agentNumber));
+            Agent initiator = initiatorPool.get(rand.nextInt(initiatorPool.size()));
             initiatorPool.remove(initiator);
 
             Event event = initiator.whatToDo();
@@ -35,10 +38,13 @@ public class Round {
             event.setRound(this);
             event.execute();
 
-            initiatorPool.removeAll(event.getParticipants());
+            events.add(event);
         }
 
 	}
-	
+
+    public List<Event> getEvents() {
+        return events;
+    }
 
 }

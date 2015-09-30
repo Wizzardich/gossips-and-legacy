@@ -37,7 +37,7 @@ public class GroomingEvent extends Event {
         participants = new LinkedList<>();
         participants.add(initiator);
 
-        int numberOfParticipants = 2;
+        int numberOfParticipants = 1;
 
         for (int i = 0; i < numberOfParticipants; i++) {
             int index = rand.nextInt(socialPool.size());
