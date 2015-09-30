@@ -27,6 +27,14 @@ public class Agent {
         memories.add(e);
     }
 
+    public void addMemories(Iterable<Event> e) {
+        for (Event event : e) {
+            if (!memories.contains(event)) {
+                memories.add(event);
+            }
+        }
+    }
+
     public List<Event> getRandomMemories(int number) {
         // in case we have less then number of memories
         if (this.memories.size() < number) return this.memories;
