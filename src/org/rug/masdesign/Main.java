@@ -17,7 +17,7 @@ public class Main {
         Population.FAIL_MODIFIER = 0.05;
 
         Agent.MAX_DEVIATION = 0.05;
-        Agent.MUTATION_CHANCE = 0.02;
+        Agent.MUTATION_CHANCE = 0.01;
 
         for (int pop = 10; pop < 250; pop +=20) {
             double result = 0.0;

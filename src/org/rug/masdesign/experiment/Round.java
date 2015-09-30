@@ -2,6 +2,7 @@ package org.rug.masdesign.experiment;
 
 import org.rug.masdesign.agents.Agent;
 import org.rug.masdesign.events.Event;
+import org.rug.masdesign.events.EventType;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -12,7 +13,6 @@ public class Round {
 
     private List<Agent> agents;
     private ArrayList<Agent> initiatorPool;
-    private int agentNumber;
     private static Random rand = new Random();
     private List<Event> events;
 
@@ -20,7 +20,6 @@ public class Round {
         agents = people;
         initiatorPool = new ArrayList<>();
         initiatorPool.addAll(agents);
-        agentNumber = agents.size();
         events = new LinkedList<>();
     }
 
@@ -29,17 +28,31 @@ public class Round {
 		//for every agent of the fraction, a random value v
 		//if v > agent's gossip probability = agent will groom, else gossip
 		//either a groom event or a gossip event is created
-        while (initiatorPool.size() >= 2) {
-            Agent initiator = initiatorPool.get(rand.nextInt(initiatorPool.size()));
-            initiatorPool.remove(initiator);
+//        while (initiatorPool.size() >= 2) {
+//            Agent initiator = initiatorPool.get(rand.nextInt(initiatorPool.size()));
+//            initiatorPool.remove(initiator);
+//
+//            Event event = initiator.whatToDo();
+//            event.build(initiator, initiatorPool, agents);
+//            event.setRound(this);
+//            event.execute();
+//
+//            events.add(event);
+//        }
+        List<Agent> groomers = new LinkedList<>();
+        List<Agent> gossipers = new LinkedList<>();
 
-            Event event = initiator.whatToDo();
-            event.build(initiator, initiatorPool, agents);
-            event.setRound(this);
-            event.execute();
-
-            events.add(event);
+        for (Agent agent: initiatorPool) {
+            switch(agent.wantsToDo()) {
+                case Grooming: groomers.add(agent);
+                    break;
+                case Gossip: gossipers.add(agent);
+                    break;
+            }
         }
+
+        generateEvents(EventType.Grooming, groomers);
+        generateEvents(EventType.Gossip, gossipers);
 
 	}
 
@@ -47,4 +60,18 @@ public class Round {
         return events;
     }
 
+
+    public void generateEvents(EventType et, List<Agent> pool) {
+        while (pool.size() >= 2) {
+            Agent initiator = pool.get(rand.nextInt(pool.size()));
+            pool.remove(initiator);
+
+            Event event = et.get();
+            event.build(initiator, pool, agents);
+            event.setRound(this);
+            event.execute();
+
+            events.add(event);
+        }
+    }
 }

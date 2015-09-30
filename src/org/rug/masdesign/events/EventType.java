@@ -11,5 +11,15 @@ public enum EventType {
     /**
      * Means to convey the idea, that this event is a grooming event
      */
-    Grooming
+    Grooming;
+
+    public Event get() {
+        switch(this) {
+            case Gossip:
+                return new GossipEvent();
+            case Grooming:
+                return new GroomingEvent();
+        }
+        return null;
+    }
 }

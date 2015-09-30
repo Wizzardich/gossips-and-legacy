@@ -1,6 +1,7 @@
 package org.rug.masdesign.agents;
 
 import org.rug.masdesign.events.Event;
+import org.rug.masdesign.events.EventType;
 import org.rug.masdesign.events.GossipEvent;
 import org.rug.masdesign.events.GroomingEvent;
 
@@ -22,13 +23,13 @@ public class Agent implements Comparable<Agent>{
 
     private double groomingEvents;
     private double gossipEvents;
-    private int gossipEventsNum;
+
 
     public Agent(double gossip) {
         gossipProbability = gossip;
         groomingEvents = 0.0;
         gossipEvents = 0.0;
-        gossipEventsNum = 0;
+
         memories = new ArrayList<>();
     }
 
@@ -86,6 +87,11 @@ public class Agent implements Comparable<Agent>{
         else return new GroomingEvent();
     }
 
+    public EventType wantsToDo() {
+        if (rand.nextDouble() < gossipProbability) return EventType.Gossip;
+        else return EventType.Grooming;
+    }
+
     public void increaseGroomingFitness() {
         groomingEvents += 1;
         fit = fitness();
@@ -93,7 +99,6 @@ public class Agent implements Comparable<Agent>{
 
     public void increaseGossipFitness(int size) {
         gossipEvents += 1.0 / (size - 1);
-        gossipEventsNum++;
         fit = fitness();
     }
 
