@@ -15,6 +15,8 @@ public abstract class Event {
     protected boolean legacy = false;
     protected Round round;
     protected static Random rand = new Random();
+    protected static final int MAX_OBSERVERS = 4;
+    protected static final int MAX_GOSSIPERS = 4;
 
     public Event() {
         id = UUID.randomUUID();
@@ -43,6 +45,11 @@ public abstract class Event {
 
     public abstract EventType getEventType();
     public abstract void apply(List<Agent> participants, List<Agent> observers);
+    public abstract void build(Agent initiator, List<Agent> socialPool, List<Agent> allAgents);
+
+    public void execute() {
+        apply(participants, observers);
+    }
 
     @Override
     public boolean equals(Object other) {

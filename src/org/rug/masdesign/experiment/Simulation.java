@@ -8,6 +8,6 @@ public class Simulation {
     public final static int fraction = 10; //it does not say in the paper what is the fraction, I'm making it up.
 
     public void execute(){
-        //TODO: create groups
+        //TODO: create rounds
 	}
 }

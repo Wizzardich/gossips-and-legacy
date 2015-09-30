@@ -2,6 +2,7 @@ package org.rug.masdesign.events;
 
 import org.rug.masdesign.agents.Agent;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -28,6 +29,35 @@ public class GroomingEvent extends Event {
 
         for (Agent observer: observers) {
             observer.addMemory(this);
+        }
+    }
+
+    @Override
+    public void build(Agent initiator, List<Agent> socialPool, List<Agent> allAgents) {
+        participants = new LinkedList<>();
+        participants.add(initiator);
+
+        int numberOfParticipants = 2;
+
+        for (int i = 0; i < numberOfParticipants; i++) {
+            int index = rand.nextInt(socialPool.size());
+            participants.add(socialPool.get(index));
+            socialPool.remove(index);
+        }
+
+        observers = new LinkedList<>();
+        int numberOfObservers = rand.nextInt(MAX_OBSERVERS) + 1;
+
+        for(int i = 0; i < numberOfObservers; i++) {
+            boolean added = false;
+            while (!added) {
+                int index = rand.nextInt(allAgents.size());
+                Agent candidate = allAgents.get(index);
+                if (!participants.contains(candidate)) {
+                    added = true;
+                    observers.add(candidate);
+                }
+            }
         }
     }
 }
