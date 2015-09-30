@@ -62,7 +62,7 @@ public class Agent {
     }
 
     public double fitness(){
-        return 0.0;
+        return (5 * groomingEvents + 4 * gossipEvents) * Math.pow(memories.size(), 2);
     }
 
     public Agent produceChild() {
