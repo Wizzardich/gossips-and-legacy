@@ -25,45 +25,24 @@ public class Population {
 
     public void nextRound(){
         Round r = new Round(population);
-
-//        System.out.printf("Round starts now\n");
-
         r.execute();
-
-        //TODO get this inside round
-
-        int gossiping = 0;
-        int grooming = 0;
-
-        for (Event e: r.getEvents()) {
-            switch (e.getEventType()) {
-                case Gossip: gossiping++;
-                    break;
-                case Grooming: grooming++;
-                    break;
-            }
-        }
-
-//        System.out.println("Gossiping: " + gossiping + "\nGrooming: " + grooming);
-//        System.out.printf("Round successful\n");
     }
 
     public void nextGeneration() {
         population.sort(Agent.comparator);
-        List<Agent> nextgen = new ArrayList<>();
-        for (int i = 0; i < (int)(population.size() * SUCCESS_MODIFIER); i++) {
-            nextgen.add(population.get(i).produceChild());
-            nextgen.add(population.get(i).produceChild());
+        List<Agent> nextGen = new ArrayList<>();
+        for (int i = 0; i < (int)Math.ceil(population.size() * SUCCESS_MODIFIER); i++) {
+            nextGen.add(population.get(i).produceChild());
+            nextGen.add(population.get(i).produceChild());
         }
 
-        for (int i = (int)(population.size() * SUCCESS_MODIFIER);
-             i <= (int)(population.size() * (1 - FAIL_MODIFIER));
+        for (int i = (int)Math.ceil(population.size() * SUCCESS_MODIFIER);
+             i < (int)(population.size() * (1 - FAIL_MODIFIER));
              i++) {
-            nextgen.add(population.get(i).produceChild());
+            nextGen.add(population.get(i).produceChild());
         }
 
-        population = nextgen;
-        System.out.println(nextgen.size());
+        population = nextGen;
     }
 
     public void execGeneration() {

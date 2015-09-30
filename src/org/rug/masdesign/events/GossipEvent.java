@@ -38,7 +38,7 @@ public class GossipEvent extends Event {
 
         // Remember this event
 
-        initiator.addMemory(this);
+        participants.add(initiator);
         for (Agent participant: participants) {
             participant.addMemory(this);
         }
@@ -63,8 +63,12 @@ public class GossipEvent extends Event {
             socialPool.remove(index);
         }
 
+        if (participants.size() == 1) {
+            System.out.println("here");
+        }
+
         observers = new LinkedList<>();
-        int numberOfObservers = rand.nextInt(MAX_OBSERVERS) + 1;
+        int numberOfObservers = NUM_OBSERVERS;//rand.nextInt(NUM_OBSERVERS) + 1;
 
         for (int i = 0; i < numberOfObservers; i++) {
             boolean added = false;

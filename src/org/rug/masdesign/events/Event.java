@@ -8,19 +8,20 @@ import java.util.Random;
 import java.util.UUID;
 
 public abstract class Event {
-    public static int GOSSIP_INFORMATION_SHARING = 10;
     protected UUID id;
     protected List<Agent> participants;
     protected List<Agent> observers;
     protected boolean legacy = false;
     protected Round round;
     protected static Random rand = new Random();
-    protected static final int MAX_OBSERVERS = 4;
-    protected static final int MAX_GOSSIPERS = 4;
+    public static int NUM_OBSERVERS = 4;
+    public static int MAX_GOSSIPERS = 4;
+    public static int GOSSIP_INFORMATION_SHARING = 10;
 
     public Event() {
         id = UUID.randomUUID();
     }
+
     public List<Agent> getParticipants() {
         return participants;
     }
@@ -49,12 +50,5 @@ public abstract class Event {
 
     public void execute() {
         apply(participants, observers);
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (!(other instanceof Event)) return false;
-        Event otherEvent = (Event) other;
-        return otherEvent.id.equals(this.id);
     }
 }

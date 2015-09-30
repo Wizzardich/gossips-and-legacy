@@ -46,7 +46,7 @@ public class GroomingEvent extends Event {
         }
 
         observers = new LinkedList<>();
-        int numberOfObservers = rand.nextInt(MAX_OBSERVERS) + 1;
+        int numberOfObservers = NUM_OBSERVERS;//rand.nextInt(NUM_OBSERVERS) + 1;
 
         for(int i = 0; i < numberOfObservers; i++) {
             boolean added = false;
