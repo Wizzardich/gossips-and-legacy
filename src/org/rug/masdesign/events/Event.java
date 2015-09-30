@@ -11,6 +11,7 @@ public abstract class Event {
     protected List<Agent> participants;
     protected List<Agent> observers;
     protected boolean legacy = false;
+    protected Round round;
 
     public List<Agent> getParticipants() {
         return participants;
@@ -26,6 +27,12 @@ public abstract class Event {
 
     public void setLegacy() {
         legacy = true;
+    }
+    public Round getRound(){
+    	return round;
+    }
+    public void setRound(Round r){
+    	round = r;
     }
 
     public abstract EventType getEventType();
