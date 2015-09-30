@@ -17,10 +17,13 @@ public class GroomingEvent extends Event {
 
     @Override
     public void apply(List<Agent> participants, List<Agent> observers) {
+
         // Increase Grooming Fitness
+
         for (Agent participant: participants) {
             participant.increaseGroomingFitness();
         }
+
         // Remember this event
 
         for (Agent participant: participants) {
