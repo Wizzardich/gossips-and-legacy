@@ -42,6 +42,7 @@ public class Round {
         List<Agent> groomers = new LinkedList<>();
         List<Agent> gossipers = new LinkedList<>();
 
+        //divides agents into gossipers and groomers
         for (Agent agent: initiatorPool) {
             switch(agent.wantsToDo()) {
                 case Grooming: groomers.add(agent);

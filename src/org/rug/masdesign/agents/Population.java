@@ -58,4 +58,11 @@ public class Population {
         }
         return sum / population.size();
     }
+    public void execNGenerations(int numberOfGenerations){
+    	
+    	for (int i = 0; i < numberOfGenerations; i++) {
+            this.execGeneration();
+            this.nextGeneration();
+        }
+    }
 }
