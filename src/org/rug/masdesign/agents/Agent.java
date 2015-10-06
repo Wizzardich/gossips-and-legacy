@@ -41,15 +41,13 @@ public class Agent implements Comparable<Agent>{
 
     public void addMemories(Iterable<Event> e) {
         for (Event event : e) {
-            if (!memories.contains(event)) {
-                memories.add(event);
-            }
+            addMemory(event);
         }
     }
 
     public List<Event> getRandomMemories(int number) {
         // in case we have less then number of memories
-        if (this.memories.size() <= number) return this.memories;
+        if (this.memories.size() <= number) return this.memories.subList(0, this.memories.size());
 
         // otherwise we iterate number of times and get a random memory each time
         List<Event> memories = new LinkedList<>();
@@ -67,7 +65,9 @@ public class Agent implements Comparable<Agent>{
     }
 
     public double fitness() {
-        return (5 * groomingEvents + 4 * gossipEvents) * memories.size() * memories.size();
+        fit = (5 * groomingEvents + 5 * gossipEvents) * memories.size() * memories.size();
+        //return (5 * groomingEvents + 4 * gossipEvents) * memories.size() * memories.size();
+        return fit;
     }
 
     public Agent produceChild() {
@@ -82,11 +82,6 @@ public class Agent implements Comparable<Agent>{
         return new Agent(newProb);
     }
 
-    public Event whatToDo() {
-        if (rand.nextDouble() < gossipProbability) return new GossipEvent();
-        else return new GroomingEvent();
-    }
-
     public EventType wantsToDo() {
         if (rand.nextDouble() < gossipProbability) return EventType.Gossip;
         else return EventType.Grooming;
@@ -94,21 +89,19 @@ public class Agent implements Comparable<Agent>{
 
     private void increaseGroomingFitness() {
         groomingEvents += 1;
-        fit = fitness();
     }
 
     private void increaseGossipFitness(int size) {
         gossipEvents += 1.0 / (size - 1);
-        fit = fitness();
     }
 
     public void increaseFitness(EventType et, int size) {
         switch(et) {
             case Gossip:
-                increaseGroomingFitness();
+                increaseGossipFitness(size);
                 break;
             case Grooming:
-                increaseGossipFitness(size);
+                increaseGroomingFitness();
                 break;
         }
     }

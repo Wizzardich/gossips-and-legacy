@@ -19,13 +19,14 @@ public class GossipEvent extends Event {
     public void apply(List<Agent> participants, List<Agent> observers) {
 
         // Increase Gossip Fitness
-        for (Agent participant: participants) {
-            participant.increaseFitness(this.getEventType(), participants.size());
-        }
+//        for (Agent participant: participants) {
+//            participant.increaseFitness(this.getEventType(), participants.size());
+//        }
+        participants.get(0).increaseFitness(this.getEventType(), participants.size());
 
         // Get event initiator
 
-        int initiatorIndex = rand.nextInt(participants.size());
+        int initiatorIndex = 0;
         Agent initiator = participants.get(initiatorIndex);
         participants.remove(initiatorIndex);
 
