@@ -50,11 +50,25 @@ public class Population {
         population.sort(Agent.comparator);
         List<Agent> nextGen = new ArrayList<>();
         for (int i = 0; i < (int)Math.ceil(population.size() * SUCCESS_MODIFIER); i++) {
-            //Agent a = population.get(i).produceChild();
-            //nextGen.add(a);
-            //nextGen.add(new Agent(a.getGossipProbability()));
             nextGen.add(population.get(i).produceChild());
             nextGen.add(population.get(i).produceChild());
+        }
+
+        for (int i = (int)Math.ceil(population.size() * SUCCESS_MODIFIER);
+             i < (int)(population.size() * (1 - FAIL_MODIFIER));
+             i++) {
+            nextGen.add(population.get(i).produceChild());
+        }
+
+        population = nextGen;
+    }
+
+    public void nextGenerationWithMemories() {
+        population.sort(Agent.comparator);
+        List<Agent> nextGen = new ArrayList<>();
+        for (int i = 0; i < (int)Math.ceil(population.size() * SUCCESS_MODIFIER); i++) {
+            nextGen.add(population.get(i).produceChildWithMemories());
+            nextGen.add(population.get(i).produceChildWithMemories());
         }
 
         for (int i = (int)Math.ceil(population.size() * SUCCESS_MODIFIER);

@@ -18,6 +18,7 @@ public class Agent implements Comparable<Agent>{
     public static double MUTATION_CHANCE = 0.01;
     private double fit = 0.0;
 
+    public static double LEGACY_RATE = 0.1;
     // These can be implemented dynamically only whe we need a fitness value.
     // Is that really optimal?
 
@@ -31,6 +32,15 @@ public class Agent implements Comparable<Agent>{
         gossipEvents = 0.0;
 
         memories = new ArrayList<>();
+    }
+
+    public Agent(double gossip, List<Event> legacyMemories) {
+        gossipProbability = gossip;
+        groomingEvents = 0.0;
+        gossipEvents = 0.0;
+
+        memories = new ArrayList<>();
+        memories.addAll(legacyMemories);
     }
 
     public void addMemory(Event e) {
@@ -65,7 +75,7 @@ public class Agent implements Comparable<Agent>{
     }
 
     public double fitness() {
-        fit = (5 * groomingEvents + 5 * gossipEvents) * memories.size() * memories.size();
+        fit = (5 * groomingEvents + 4 * gossipEvents) * memories.size() * memories.size();
         //return (5 * groomingEvents + 4 * gossipEvents) * memories.size() * memories.size();
         return fit;
     }
@@ -80,6 +90,23 @@ public class Agent implements Comparable<Agent>{
         newProb = Math.max(0, Math.min(1, newProb));
 
         return new Agent(newProb);
+    }
+
+    public Agent produceChildWithMemories() {
+        double mutation = MAX_DEVIATION * rand.nextDouble();
+        mutation *= rand.nextDouble() > 0.5 ? -1 : 1;
+        double newProb = rand.nextDouble() < MUTATION_CHANCE
+                ? gossipProbability + mutation
+                : gossipProbability;
+
+        newProb = Math.max(0, Math.min(1, newProb));
+
+        List<Event> newMem = new ArrayList<>();
+        for (Event e : memories) {
+            if (rand.nextDouble() < LEGACY_RATE) newMem.add(e);
+        }
+
+        return new Agent(newProb, newMem);
     }
 
     public EventType wantsToDo() {
