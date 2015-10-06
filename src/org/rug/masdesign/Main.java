@@ -40,11 +40,4 @@ public class Main {
         }
     }
 
-    public static double getDefaultFinalAverage(int populationSize){
-
-        Population population = new Population(populationSize, 0.5, 30);
-        population.execNGenerations(210);
-        return population.getAverage();
-    }
-
 }
