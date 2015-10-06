@@ -92,12 +92,12 @@ public class Agent implements Comparable<Agent>{
         else return EventType.Grooming;
     }
 
-    public void increaseGroomingFitness() {
+    private void increaseGroomingFitness() {
         groomingEvents += 1;
         fit = fitness();
     }
 
-    public void increaseGossipFitness(int size) {
+    private void increaseGossipFitness(int size) {
         gossipEvents += 1.0 / (size - 1);
         fit = fitness();
     }

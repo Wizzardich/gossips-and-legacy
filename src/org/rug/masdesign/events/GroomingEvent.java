@@ -21,7 +21,7 @@ public class GroomingEvent extends Event {
         // Increase Grooming Fitness
 
         for (Agent participant: participants) {
-            participant.increaseGroomingFitness();
+            participant.increaseFitness(this.getEventType(), 0);
         }
 
         // Remember this event

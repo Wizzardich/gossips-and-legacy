@@ -20,7 +20,7 @@ public class GossipEvent extends Event {
 
         // Increase Gossip Fitness
         for (Agent participant: participants) {
-            participant.increaseGossipFitness(participants.size());
+            participant.increaseFitness(this.getEventType(), participants.size());
         }
 
         // Get event initiator
