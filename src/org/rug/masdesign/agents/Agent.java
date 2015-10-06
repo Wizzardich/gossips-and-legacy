@@ -18,6 +18,7 @@ public class Agent implements Comparable<Agent>{
     public static double MUTATION_CHANCE = 0.01;
     private double fit = 0.0;
 
+    public static double LEGACY_RATE = 0.1;
     // These can be implemented dynamically only whe we need a fitness value.
     // Is that really optimal?
 
@@ -33,6 +34,15 @@ public class Agent implements Comparable<Agent>{
         memories = new ArrayList<>();
     }
 
+    public Agent(double gossip, List<Event> legacyMemories) {
+        gossipProbability = gossip;
+        groomingEvents = 0.0;
+        gossipEvents = 0.0;
+
+        memories = new ArrayList<>();
+        memories.addAll(legacyMemories);
+    }
+
     public void addMemory(Event e) {
         if (!memories.contains(e)) {
             memories.add(e);
@@ -41,15 +51,13 @@ public class Agent implements Comparable<Agent>{
 
     public void addMemories(Iterable<Event> e) {
         for (Event event : e) {
-            if (!memories.contains(event)) {
-                memories.add(event);
-            }
+            addMemory(event);
         }
     }
 
     public List<Event> getRandomMemories(int number) {
         // in case we have less then number of memories
-        if (this.memories.size() <= number) return this.memories;
+        if (this.memories.size() <= number) return this.memories.subList(0, this.memories.size());
 
         // otherwise we iterate number of times and get a random memory each time
         List<Event> memories = new LinkedList<>();
@@ -67,7 +75,9 @@ public class Agent implements Comparable<Agent>{
     }
 
     public double fitness() {
-        return (5 * groomingEvents + 4 * gossipEvents) * memories.size() * memories.size();
+        fit = (5 * groomingEvents + 4 * gossipEvents) * memories.size() * memories.size();
+        //return (5 * groomingEvents + 4 * gossipEvents) * memories.size() * memories.size();
+        return fit;
     }
 
     public Agent produceChild() {
@@ -82,9 +92,21 @@ public class Agent implements Comparable<Agent>{
         return new Agent(newProb);
     }
 
-    public Event whatToDo() {
-        if (rand.nextDouble() < gossipProbability) return new GossipEvent();
-        else return new GroomingEvent();
+    public Agent produceChildWithMemories() {
+        double mutation = MAX_DEVIATION * rand.nextDouble();
+        mutation *= rand.nextDouble() > 0.5 ? -1 : 1;
+        double newProb = rand.nextDouble() < MUTATION_CHANCE
+                ? gossipProbability + mutation
+                : gossipProbability;
+
+        newProb = Math.max(0, Math.min(1, newProb));
+
+        List<Event> newMem = new ArrayList<>();
+        for (Event e : memories) {
+            if (rand.nextDouble() < LEGACY_RATE) newMem.add(e);
+        }
+
+        return new Agent(newProb, newMem);
     }
 
     public EventType wantsToDo() {
@@ -92,14 +114,23 @@ public class Agent implements Comparable<Agent>{
         else return EventType.Grooming;
     }
 
-    public void increaseGroomingFitness() {
+    private void increaseGroomingFitness() {
         groomingEvents += 1;
-        fit = fitness();
     }
 
-    public void increaseGossipFitness(int size) {
+    private void increaseGossipFitness(int size) {
         gossipEvents += 1.0 / (size - 1);
-        fit = fitness();
+    }
+
+    public void increaseFitness(EventType et, int size) {
+        switch(et) {
+            case Gossip:
+                increaseGossipFitness(size);
+                break;
+            case Grooming:
+                increaseGroomingFitness();
+                break;
+        }
     }
 
     public double getGossipProbability() {

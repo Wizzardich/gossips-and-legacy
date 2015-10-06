@@ -5,14 +5,10 @@ import org.rug.masdesign.agents.Population;
 import org.rug.masdesign.events.Event;
 
 public class Main {
-	
-	public static void main(String[] args) {
-		new Gui();
-	}
-	
-    public static void mainOld(String[] args) {
-        int generations = 210;
-        double startingGossipProbability = 0.5;
+
+    public static void main(String[] args) {
+        int n = 2100;
+        double startingGossipProbability = 0.1;
         int roundsPerGeneration = 30;
 
         Event.GOSSIP_INFORMATION_SHARING = 10;
@@ -24,13 +20,18 @@ public class Main {
 
         Agent.MAX_DEVIATION = 0.05;
         Agent.MUTATION_CHANCE = 0.01;
+        Agent.LEGACY_RATE = 0.1;
 
-        for (int populationSize = 10; populationSize < 250; populationSize +=20) {
+        for (int populationSize = 10; populationSize < 220; populationSize +=20) {
             double result = 0.0;
             for(int j = 0; j < 5; j++) {
                 Population population = new Population(populationSize, startingGossipProbability, roundsPerGeneration);
 
-                population.execNGenerations(generations);
+                //population.execNGenerations(n);
+                for (int i = 0; i < n; i++) {
+                    population.execGeneration();
+                    population.nextGenerationWithMemories();
+                }
 
                 System.out.println("Average Gossip probability for " + populationSize + " people = " + population.getAverage());
                 result += population.getAverage();
@@ -38,11 +39,13 @@ public class Main {
             result /= 5;
             System.out.println("Average Gossip overall probability for " + populationSize + " people = " + result);
         }
+
+//        Population population = new Population(10, startingGossipProbability, roundsPerGeneration);
+//        for (int i = 0; i < n; i++) {
+//            population.execGeneration();
+//            population.nextGenerationWithMemories();
+//            System.out.println(population.getAverage());
+//        }
     }
-    public static double getDefaultFinalAverage(int populationSize){
-    	
-    	Population population = new Population(populationSize, 0.5, 30);
-        population.execNGenerations(210);
-    	return population.getAverage();
-    }
+
 }
