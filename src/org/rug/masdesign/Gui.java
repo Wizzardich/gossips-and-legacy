@@ -36,7 +36,7 @@ public class Gui {
 		
 		final JPanel comboPanel = new JPanel();
 		JLabel comboLbl = new JLabel("Executions Per Size:");
-		JComboBox <String>executions = new JComboBox<String>(execOptions);
+		JComboBox <String>executions = new JComboBox<>(execOptions);
 		executions.setSelectedIndex(4);
 		comboPanel.add(comboLbl);
 		comboPanel.add(executions);
@@ -46,7 +46,7 @@ public class Gui {
 		final JPanel listPanel = new JPanel();
 		listPanel.setVisible(false);
 		JLabel listLbl = new JLabel("Population Sizes:");
-		JList <String>sizes = new JList<String>(sizeOptions);
+		JList <String>sizes = new JList<>(sizeOptions);
 		sizes.setFixedCellHeight(20);
 		sizes.setFixedCellWidth(50);
 		listPanel.setVisible(true);
@@ -114,7 +114,7 @@ public class Gui {
 			int size = Integer.parseInt(sizes[i]);
 			
 			//generate probabilities based on the number of executions
-			ArrayList<Double> probs = new ArrayList<Double>();
+			ArrayList<Double> probs = new ArrayList<>();
 			for(int j = 0; j< executions; j++){
 				double d = Main.getDefaultFinalAverage(size);
 				probs.add(d);

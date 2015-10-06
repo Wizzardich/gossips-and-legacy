@@ -28,17 +28,7 @@ public class Round {
 		//for every agent of the fraction, a random value v
 		//if v > agent's gossip probability = agent will groom, else gossip
 		//either a groom event or a gossip event is created
-//        while (initiatorPool.size() >= 2) {
-//            Agent initiator = initiatorPool.get(rand.nextInt(initiatorPool.size()));
-//            initiatorPool.remove(initiator);
-//
-//            Event event = initiator.whatToDo();
-//            event.build(initiator, initiatorPool, agents);
-//            event.setRound(this);
-//            event.execute();
-//
-//            events.add(event);
-//        }
+
         List<Agent> groomers = new LinkedList<>();
         List<Agent> gossipers = new LinkedList<>();
 

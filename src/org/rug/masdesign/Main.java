@@ -5,11 +5,11 @@ import org.rug.masdesign.agents.Population;
 import org.rug.masdesign.events.Event;
 
 public class Main {
-	
-	public static void main(String[] args) {
-		new Gui();
-	}
-	
+
+    public static void main(String[] args) {
+        new Gui();
+    }
+
     public static void mainOld(String[] args) {
         int generations = 210;
         double startingGossipProbability = 0.5;
@@ -39,10 +39,12 @@ public class Main {
             System.out.println("Average Gossip overall probability for " + populationSize + " people = " + result);
         }
     }
+
     public static double getDefaultFinalAverage(int populationSize){
-    	
-    	Population population = new Population(populationSize, 0.5, 30);
+
+        Population population = new Population(populationSize, 0.5, 30);
         population.execNGenerations(210);
-    	return population.getAverage();
+        return population.getAverage();
     }
+
 }

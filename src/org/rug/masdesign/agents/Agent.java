@@ -102,6 +102,17 @@ public class Agent implements Comparable<Agent>{
         fit = fitness();
     }
 
+    public void increaseFitness(EventType et, int size) {
+        switch(et) {
+            case Gossip:
+                increaseGroomingFitness();
+                break;
+            case Grooming:
+                increaseGossipFitness(size);
+                break;
+        }
+    }
+
     public double getGossipProbability() {
         return gossipProbability;
     }
