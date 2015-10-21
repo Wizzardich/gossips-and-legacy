@@ -22,7 +22,7 @@ public class Main {
         Agent.MUTATION_CHANCE = 0.01;
         Agent.LEGACY_RATE = 0.1;
 
-        for (int populationSize = 15; populationSize < 220; populationSize +=10) {
+        for (int populationSize = 5; populationSize < 6; populationSize +=10) {
             double result = 0.0;
             for(int j = 0; j < 5; j++) {
                 Population population = new Population(populationSize, startingGossipProbability, roundsPerGeneration);
@@ -37,7 +37,7 @@ public class Main {
                 result += population.getAverage();
             }
             result /= 5;
-            System.out.println("Average Gossip overall probability for " + populationSize + " people = " + result);
+            //System.out.println("Average Gossip overall probability for " + populationSize + " people = " + result);
         }
 
 //        Population population = new Population(10, startingGossipProbability, roundsPerGeneration);
